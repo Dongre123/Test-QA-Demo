@@ -1,0 +1,28 @@
+name: QA Demo Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Verify Application Files
+        run: |
+          echo "Checking application files..."
+          test -f index.html
+          test -f Dockerfile
+
+      - name: Build Docker Image
+        run: docker build -t qa-demo-app:1.0 .
+
+      - name: Run Basic Test
+        run: |
+          echo "QA Smoke Test"
+          test -f index.html
+          echo "Application files verified successfully"
